@@ -1,0 +1,30 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  username TEXT UNIQUE NOT NULL,
+  pass_hash TEXT NOT NULL,
+  salt TEXT NOT NULL,
+  api_key TEXT UNIQUE NOT NULL,
+  is_admin INTEGER NOT NULL DEFAULT 0,
+  disabled INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL
+);
+CREATE TABLE IF NOT EXISTS mailboxes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  address TEXT UNIQUE NOT NULL,
+  created_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_mb_user ON mailboxes(user_id);
+CREATE TABLE IF NOT EXISTS messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  mailbox_id INTEGER NOT NULL REFERENCES mailboxes(id) ON DELETE CASCADE,
+  address TEXT NOT NULL,
+  from_addr TEXT,
+  subject TEXT,
+  text TEXT,
+  html TEXT,
+  code TEXT,
+  received_at INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_msg_mb ON messages(mailbox_id, received_at DESC);
+CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT);
