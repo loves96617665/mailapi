@@ -5,34 +5,34 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>__DOMAIN__ Mail</title>
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--fg:#1c1d21;--mute:#6b7280;--line:#e5e7eb;--acc:#f38020;--acc2:#fff3e8;--sel:#fff7ef;--danger:#dc2626}
-[data-theme=dark]{--bg:#111214;--card:#1b1c1f;--fg:#e8e8ea;--mute:#9aa0aa;--line:#2b2d31;--acc:#f6923a;--acc2:#3a2a1c;--sel:#262019;--danger:#f87171}
+:root{--bg:#f6f7f9;--card:#fff;--fg:#1c1d21;--mute:#6b7280;--line:#e5e7eb;--acc:#f38020;--acc2:#fff3e8;--sel:#fff7ef;--danger:#dc2626;--ok:#16a34a}
+[data-theme=dark]{--bg:#111214;--card:#1b1c1f;--fg:#e8e8ea;--mute:#9aa0aa;--line:#2b2d31;--acc:#f6923a;--acc2:#3a2a1c;--sel:#262019;--danger:#f87171;--ok:#4ade80}
 *{box-sizing:border-box}html,body{height:100%}
 body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang HK","Noto Sans TC",sans-serif;background:var(--bg);color:var(--fg)}
-button,input{font:inherit;color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 12px}
 button:hover{border-color:var(--acc)}
 button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
 button.ghost{border:none;background:none;padding:4px 8px;color:var(--mute)}
 button.ghost:hover{color:var(--fg)}
 button.danger{color:var(--danger)}
-input{width:100%;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);outline:none}
-input:focus{border-color:var(--acc)}
+button.sm{padding:3px 8px;font-size:12px}
+input,select,textarea{width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:160px;resize:vertical}
 .hidden{display:none!important}
-/* auth */
 #auth{min-height:100%;display:flex;align-items:center;justify-content:center;padding:20px}
-.authbox{width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px}
+.authbox{width:100%;max-width:400px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px}
 .authbox h1{margin:0 0 4px;font-size:22px}.authbox p{margin:0 0 20px;color:var(--mute)}
-.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--bg);padding:4px;border-radius:10px}
-.tabs button{flex:1;border:none;background:none}.tabs button.on{background:var(--card);box-shadow:0 1px 2px #0002}
-.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--mute);margin-bottom:4px}
-.suffix{display:flex;align-items:center;gap:6px}.suffix span{color:var(--mute);white-space:nowrap}
+.tabs{display:flex;gap:4px;margin-bottom:16px;background:var(--bg);padding:4px;border-radius:10px;flex-wrap:wrap}
+.tabs button{flex:1;border:none;background:none;white-space:nowrap}.tabs button.on{background:var(--card);box-shadow:0 1px 2px #0002}
+.field{margin-bottom:12px}.field label,.lbl{display:block;font-size:12px;color:var(--mute);margin-bottom:4px}
+.suffix{display:flex;align-items:center;gap:6px}.suffix select{width:auto;max-width:55%}
 .err{color:var(--danger);font-size:13px;min-height:20px}
-/* app */
 #app{height:100%;display:flex;flex-direction:column}
-header{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--card)}
+header{display:flex;align-items:center;gap:6px;padding:10px 16px;border-bottom:1px solid var(--line);background:var(--card);flex-wrap:wrap}
 header .logo{font-weight:700}header .sp{flex:1}header .user{color:var(--mute)}
-main{flex:1;display:grid;grid-template-columns:260px 360px 1fr;min-height:0}
+main{flex:1;display:grid;grid-template-columns:270px 380px 1fr;min-height:0}
 .col{border-right:1px solid var(--line);overflow:auto;min-height:0;background:var(--card)}
 .col:last-child{border-right:none;background:var(--bg)}
 .colhead{position:sticky;top:0;background:inherit;display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:600;z-index:1}
@@ -41,44 +41,62 @@ main{flex:1;display:grid;grid-template-columns:260px 360px 1fr;min-height:0}
 .mb:hover{background:var(--sel)}.mb.on{background:var(--acc2)}
 .mb .addr{font-weight:500;word-break:break-all}.mb .meta{display:flex;align-items:center;gap:4px;color:var(--mute);font-size:12px}
 .mb .meta .sp{flex:1}
-.newmb{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;gap:6px}
-.msg{padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer}
+.badge{background:var(--acc);color:#fff;border-radius:9px;padding:0 6px;font-size:11px;font-weight:600}
+.newmb{padding:12px 14px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:6px}
+.newmb .opts{grid-column:1/-1;display:flex;gap:6px}.newmb select{font-size:12px;padding:5px 8px}
+.tools{padding:8px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px;background:var(--card);position:sticky;top:49px;z-index:1}
+.chips{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.chip{border:1px solid var(--line);border-radius:14px;padding:2px 10px;font-size:12px;background:none}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.msg{padding:11px 14px;border-bottom:1px solid var(--line);cursor:pointer;position:relative}
 .msg:hover{background:var(--sel)}.msg.on{background:var(--acc2)}
-.msg .row{display:flex;gap:8px;align-items:center}.msg .from{flex:1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.msg.unread .from{font-weight:700}.msg.unread::before{content:"";position:absolute;left:4px;top:18px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+.msg .row{display:flex;gap:6px;align-items:center}.msg .from{flex:1;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .msg .time{color:var(--mute);font-size:12px;white-space:nowrap}
 .msg .subj{color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.star{border:none;background:none;padding:0 2px;font-size:15px;color:var(--mute);line-height:1}.star.on{color:#f59e0b}
+.lab{font-size:11px;border-radius:4px;padding:0 6px;background:var(--acc2);color:var(--acc);margin-right:4px}
 .code{display:inline-flex;align-items:center;gap:6px;font:600 15px ui-monospace,Menlo,monospace;letter-spacing:2px;background:var(--acc);color:#fff;border-radius:6px;padding:2px 8px;border:none;margin-top:6px}
 .code.big{font-size:28px;padding:8px 16px;letter-spacing:6px}
 .empty{padding:40px 20px;text-align:center;color:var(--mute)}
 .view{padding:20px;max-width:900px}
 .view h2{margin:0 0 8px;font-size:20px;word-break:break-word}
 .view .hdr{color:var(--mute);font-size:13px;margin-bottom:14px}
-.view .bar{display:flex;gap:8px;align-items:center;margin:12px 0}
+.view .bar{display:flex;gap:8px;align-items:center;margin:12px 0;flex-wrap:wrap}
+.atts{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.att{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:8px;padding:6px 10px;font-size:13px;cursor:pointer;max-width:100%}
+.att small{color:var(--mute)}.att img{max-height:60px;border-radius:4px}
 .body{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .body iframe{width:100%;border:0;min-height:480px;background:#fff}
 .body pre{margin:0;padding:16px;white-space:pre-wrap;word-break:break-word;font:13px/1.6 ui-monospace,Menlo,monospace}
-.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;animation:p 2s infinite}
+.live{display:inline-block;width:8px;height:8px;border-radius:50%;background:#9ca3af}.live.on{background:#22c55e;animation:p 2s infinite}
 @keyframes p{50%{opacity:.3}}
-/* modal */
 .modal{position:fixed;inset:0;background:#0007;display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
-.modal .box{background:var(--card);border-radius:14px;padding:24px;width:100%;max-width:520px;max-height:90vh;overflow:auto}
-.modal h3{margin:0 0 16px}.modal section{margin-bottom:20px}
+.modal .box{background:var(--card);border-radius:14px;padding:22px;width:100%;max-width:600px;max-height:92vh;overflow:auto}
+.modal h3{margin:0}.modal section{margin-bottom:18px}
+.modal .box.wide{max-width:1000px}
 .keybox{display:flex;gap:6px}.keybox input{font-family:ui-monospace,Menlo,monospace;font-size:12px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:8px;z-index:20}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:8px;z-index:20;max-width:90vw}
 .back{display:none}
-.modal .box.wide{max-width:960px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
 .stat{background:var(--bg);border-radius:10px;padding:12px}.stat b{display:block;font-size:22px}.stat span{color:var(--mute);font-size:12px}
 .row2{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.row2 input,.row2 select{width:auto;flex:1;min-width:120px}
 table.ut{width:100%;border-collapse:collapse;font-size:13px}
-table.ut th,table.ut td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ut th,table.ut td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+table.ut td.wrap{white-space:normal;word-break:break-all}
 table.ut th{color:var(--mute);font-weight:500}
 table.ut td.acts button{padding:3px 8px;font-size:12px;margin-right:4px}
-.tag{font-size:11px;border-radius:4px;padding:1px 6px;background:var(--acc2);color:var(--acc)}
-.tag.off{background:#fee2e2;color:#b91c1c}
-.tblwrap{overflow:auto;max-height:50vh}
+.tag{font-size:11px;border-radius:4px;padding:1px 6px;background:var(--acc2);color:var(--acc);margin-left:3px}
+.tag.off{background:#fee2e2;color:#b91c1c}.tag.ok{background:#dcfce7;color:#15803d}
+.tblwrap{overflow:auto;max-height:55vh}
+.chart{width:100%;height:180px;background:var(--bg);border-radius:10px;padding:8px}
+.chart rect.r{fill:var(--acc)}.chart rect.g{fill:#60a5fa}.chart text{fill:var(--mute);font-size:9px}
+.legend{font-size:12px;color:var(--mute);display:flex;gap:12px;margin:6px 0 14px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.hint{font-size:12px;color:var(--mute);margin:4px 0 0}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px;word-break:break-all}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:900px){
+@media(max-width:960px){
   main{grid-template-columns:1fr}
   main .col{display:none;border-right:none}
   main[data-pane=mb] .c1,main[data-pane=list] .c2,main[data-pane=view] .c3{display:block}
@@ -95,8 +113,9 @@ table.ut td.acts button{padding:3px 8px;font-size:12px;margin-right:4px}
     <div class="tabs"><button id="tLogin" class="on" data-t="login"></button><button id="tReg" data-t="register"></button></div>
     <form id="authForm">
       <div class="field"><label data-t="username"></label>
-        <div class="suffix"><input id="fUser" autocomplete="username" required><span id="fSuffix" class="hidden">@__DOMAIN__</span></div></div>
+        <div class="suffix"><input id="fUser" autocomplete="username" required><select id="fDomain" class="hidden"></select></div></div>
       <div class="field"><label data-t="password"></label><input id="fPass" type="password" autocomplete="current-password" required></div>
+      <div class="field hidden" id="fOtpWrap"><label data-t="otp"></label><input id="fOtp" inputmode="numeric" autocomplete="one-time-code" maxlength="6"></div>
       <div class="field hidden" id="fInviteWrap"><label data-t="invite"></label><input id="fInvite"></div>
       <div class="err" id="authErr"></div>
       <button class="pri" style="width:100%" id="authBtn" data-t="login"></button>
@@ -110,9 +129,10 @@ table.ut td.acts button{padding:3px 8px;font-size:12px;margin-right:4px}
 
 <div id="app" class="hidden">
   <header>
-    <span class="logo">📬 __DOMAIN__</span><span class="live" title="auto refresh"></span>
+    <span class="logo">📬 __DOMAIN__</span><span class="live" id="liveDot" title="realtime"></span>
     <span class="sp"></span>
     <span class="user" id="hUser"></span>
+    <button class="ghost hidden" id="composeBtn" onclick="openCompose()" data-t="compose"></button>
     <button class="ghost" onclick="toggleLang()">中 / EN</button>
     <button class="ghost" onclick="toggleTheme()">◐</button>
     <button class="ghost hidden" id="adminBtn" onclick="openAdmin()" data-t="admin"></button>
@@ -122,136 +142,279 @@ table.ut td.acts button{padding:3px 8px;font-size:12px;margin-right:4px}
   <main id="main" data-pane="mb">
     <div class="col c1">
       <div class="colhead"><span data-t="mailboxes"></span><span class="sp"></span><span id="mbCount" style="color:var(--mute);font-weight:400"></span></div>
-      <form class="newmb" id="newMbForm"><input id="newMbName" data-tp="newmb_ph"><button class="pri" data-t="add"></button></form>
+      <form class="newmb" id="newMbForm"><input id="newMbName" data-tp="newmb_ph"><button class="pri" data-t="add"></button>
+        <div class="opts"><select id="newMbDomain"></select><select id="newMbTtl"><option value="" data-t="ttl_none"></option><option value="1">1h</option><option value="24">24h</option><option value="72">3d</option><option value="168">7d</option><option value="720">30d</option></select></div></form>
       <div id="mbList"></div>
     </div>
     <div class="col c2">
-      <div class="colhead"><button class="ghost back" onclick="pane('mb')">‹</button><span id="curAddr" style="word-break:break-all"></span><span class="sp"></span>
+      <div class="colhead"><button class="ghost back" onclick="pane('mb')">‹</button><span id="curAddr" style="word-break:break-all;flex:1"></span>
+        <button class="ghost" onclick="readAll()" data-t="readall" style="font-weight:400"></button>
         <button class="ghost" onclick="loadMessages(true)" title="refresh">↻</button></div>
+      <div class="tools">
+        <input id="q" data-tp="search_mail" oninput="clearTimeout(window._q);window._q=setTimeout(()=>loadMessages(true),350)">
+        <div class="chips" id="chips"></div>
+      </div>
       <div id="msgList"></div>
+      <div id="moreWrap" class="hidden" style="padding:12px;text-align:center"><button onclick="loadMore()" data-t="more"></button></div>
     </div>
     <div class="col c3"><div id="msgView"><div class="empty" data-t="pick"></div></div></div>
   </main>
 </div>
 
-<div id="settings" class="modal hidden" onclick="if(event.target===this)closeSettings()">
+<!-- settings -->
+<div id="settings" class="modal hidden" onclick="if(event.target===this)closeM('settings')">
   <div class="box">
-    <h3 data-t="settings"></h3>
-    <section><label style="font-size:12px;color:var(--mute)">API Key</label>
-      <div class="keybox"><input id="sKey" readonly type="password"><button onclick="sKey.type=sKey.type==='password'?'text':'password'">👁</button><button onclick="copy(sKey.value)" data-t="copy"></button></div>
-      <div style="margin-top:8px;display:flex;gap:8px"><button class="danger" onclick="rotateKey()" data-t="rotate"></button><a href="/docs" target="_blank" style="align-self:center;color:var(--acc)" data-t="apidocs"></a></div>
-    </section>
-    <section><label style="font-size:12px;color:var(--mute)" data-t="newpass"></label>
-      <div class="keybox"><input id="sPass" type="password" autocomplete="new-password"><button onclick="changePass()" data-t="save"></button></div></section>
-    <div style="text-align:right"><button onclick="closeSettings()" data-t="close"></button></div>
+    <div class="row2"><h3 style="flex:1" data-t="settings"></h3><button onclick="closeM('settings')" data-t="close"></button></div>
+    <div class="tabs" id="sTabs"></div>
+    <div data-sp="acct">
+      <section><span class="lbl">API Key</span>
+        <div class="keybox"><input id="sKey" readonly type="password"><button onclick="sKey.type=sKey.type==='password'?'text':'password'">👁</button><button onclick="copy(sKey.value)" data-t="copy"></button></div>
+        <div style="margin-top:8px;display:flex;gap:8px"><button class="danger" onclick="rotateKey()" data-t="rotate"></button><a href="/docs" target="_blank" style="align-self:center;color:var(--acc)" data-t="apidocs"></a></div>
+      </section>
+      <section><span class="lbl" data-t="newpass"></span>
+        <div class="keybox"><input id="sPass" type="password" autocomplete="new-password"><button onclick="changePass()" data-t="save"></button></div></section>
+    </div>
+    <div data-sp="notify" class="hidden">
+      <section><span class="lbl">Webhook URL</span>
+        <div class="keybox"><input id="sHook" placeholder="https://example.com/hook"><button onclick="saveNotify({webhook_url:sHook.value})" data-t="save"></button><button onclick="testHook()" data-t="test"></button></div>
+        <div id="sHookSecWrap" class="hidden" style="margin-top:8px"><span class="lbl" data-t="hooksecret"></span>
+          <div class="keybox"><input id="sHookSec" readonly class="mono"><button onclick="copy(sHookSec.value)" data-t="copy"></button><button class="danger" onclick="rotateHook()" data-t="regen"></button></div></div>
+        <p class="hint" data-t="hookhint"></p>
+      </section>
+      <section><span class="lbl">Telegram Bot Token</span>
+        <input id="sTgTok" placeholder="123456789:AA..." style="margin-bottom:6px">
+        <span class="lbl">Chat ID</span>
+        <div class="keybox"><input id="sTgChat" placeholder="123456789"><button onclick="saveTg()" data-t="save"></button><button onclick="testTg()" data-t="test"></button></div>
+        <p class="hint" data-t="tghint"></p>
+      </section>
+    </div>
+    <div data-sp="rules" class="hidden">
+      <section>
+        <div class="row2"><select id="rKind"><option value="forward" data-t="r_forward"></option><option value="block" data-t="r_block"></option><option value="allow" data-t="r_allow"></option></select>
+          <select id="rField"><option value="any" data-t="f_any"></option><option value="from" data-t="from"></option><option value="subject" data-t="f_subject"></option></select>
+          <select id="rAddr"></select></div>
+        <div class="row2"><input id="rPattern" data-tp="r_pattern"><input id="rTarget" data-tp="r_target"><button class="pri" onclick="addRule()" data-t="add"></button></div>
+        <p class="hint" data-t="rulehint"></p>
+      </section>
+      <div class="tblwrap"><table class="ut"><thead><tr><th data-t="r_type"></th><th data-t="r_cond"></th><th data-t="r_scope"></th><th></th></tr></thead><tbody id="rList"></tbody></table></div>
+    </div>
+    <div data-sp="2fa" class="hidden">
+      <section id="tfOff">
+        <p data-t="tf_desc"></p>
+        <button class="pri" onclick="tfSetup()" data-t="tf_setup"></button>
+        <div id="tfSetupBox" class="hidden" style="margin-top:12px">
+          <span class="lbl" data-t="tf_secret"></span><div class="keybox"><input id="tfSecret" readonly class="mono"><button onclick="copy(tfSecret.value)" data-t="copy"></button></div>
+          <span class="lbl" style="margin-top:8px">otpauth URI</span><div class="keybox"><input id="tfUri" readonly class="mono"><button onclick="copy(tfUri.value)" data-t="copy"></button></div>
+          <span class="lbl" style="margin-top:8px" data-t="tf_enter"></span><div class="keybox"><input id="tfCode" inputmode="numeric" maxlength="6"><button class="pri" onclick="tfEnable()" data-t="tf_enable"></button></div>
+        </div>
+      </section>
+      <section id="tfOn" class="hidden">
+        <p><span class="tag ok" data-t="tf_on"></span></p>
+        <span class="lbl" data-t="tf_enter"></span><div class="keybox"><input id="tfOffCode" inputmode="numeric" maxlength="6"><button class="danger" onclick="tfDisable()" data-t="tf_disable"></button></div>
+      </section>
+    </div>
+    <div data-sp="sent" class="hidden">
+      <div class="tblwrap"><table class="ut"><thead><tr><th data-t="time"></th><th data-t="from"></th><th data-t="to"></th><th data-t="f_subject"></th><th></th></tr></thead><tbody id="sentList"></tbody></table></div>
+    </div>
   </div>
 </div>
 
-<div id="admin" class="modal hidden" onclick="if(event.target===this)closeAdmin()">
+<!-- compose -->
+<div id="compose" class="modal hidden" onclick="if(event.target===this)closeM('compose')">
+  <div class="box">
+    <div class="row2"><h3 style="flex:1" data-t="compose"></h3><button onclick="closeM('compose')" data-t="close"></button></div>
+    <div class="field"><label data-t="from"></label><select id="cFrom"></select></div>
+    <div class="field"><label data-t="to"></label><input id="cTo" placeholder="a@example.com, b@example.com"></div>
+    <div class="field"><label data-t="f_subject"></label><input id="cSubj"></div>
+    <div class="field"><textarea id="cBody"></textarea></div>
+    <div class="err" id="cErr"></div>
+    <div style="text-align:right"><button class="pri" id="cSend" onclick="sendMail()" data-t="send"></button></div>
+  </div>
+</div>
+
+<!-- admin -->
+<div id="admin" class="modal hidden" onclick="if(event.target===this)closeM('admin')">
   <div class="box wide">
-    <div class="row2"><h3 style="margin:0;flex:1" data-t="admin"></h3><button onclick="closeAdmin()" data-t="close"></button></div>
-    <div class="stats" id="aStats"></div>
-    <div class="row2">
-      <label style="display:flex;gap:6px;align-items:center;cursor:pointer"><input type="checkbox" id="aReg" style="width:auto" onchange="saveCfg({allow_register:this.checked})"><span data-t="openreg"></span></label>
-      <span style="flex:1"></span>
-      <span data-t="invite"></span><input id="aInvite" style="width:160px" data-tp="invite_ph"><button onclick="saveCfg({invite_code:aInvite.value})" data-t="save"></button>
+    <div class="row2"><h3 style="flex:1" data-t="admin"></h3><button onclick="closeM('admin')" data-t="close"></button></div>
+    <div class="tabs" id="aTabs"></div>
+    <div data-ap="over">
+      <div class="stats" id="aStats"></div>
+      <svg class="chart" id="aChart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
+      <div class="legend"><span><i style="background:var(--acc)"></i><span data-t="received30"></span></span><span><i style="background:#60a5fa"></i><span data-t="registered"></span></span><span id="aChartMax"></span></div>
+      <span class="lbl" data-t="topusers"></span>
+      <table class="ut"><tbody id="aTop"></tbody></table>
     </div>
-    <div class="row2"><input id="aQ" data-tp="search" oninput="clearTimeout(window._aq);window._aq=setTimeout(loadUsers,300)"></div>
-    <div class="tblwrap"><table class="ut"><thead><tr><th data-t="username"></th><th data-t="mailboxes"></th><th data-t="msgcount"></th><th data-t="lastmail"></th><th data-t="created"></th><th></th></tr></thead><tbody id="aUsers"></tbody></table></div>
+    <div data-ap="users" class="hidden">
+      <div class="row2">
+        <label style="display:flex;gap:6px;align-items:center;cursor:pointer;flex:0"><input type="checkbox" id="aReg" style="width:auto" onchange="saveCfg({allow_register:this.checked})"><span data-t="openreg" style="white-space:nowrap"></span></label>
+        <span style="flex:1"></span>
+        <span data-t="invite"></span><input id="aInvite" style="max-width:160px" data-tp="invite_ph"><button onclick="saveCfg({invite_code:aInvite.value})" data-t="save"></button>
+      </div>
+      <div class="row2"><input id="aQ" data-tp="search" oninput="clearTimeout(window._aq);window._aq=setTimeout(loadUsers,300)"></div>
+      <div class="tblwrap"><table class="ut"><thead><tr><th data-t="username"></th><th data-t="mailboxes"></th><th data-t="msgcount"></th><th data-t="lastmail"></th><th data-t="created"></th><th></th></tr></thead><tbody id="aUsers"></tbody></table></div>
+    </div>
+    <div data-ap="domains" class="hidden">
+      <div class="row2"><input id="aDom" placeholder="example.com"><button class="pri" onclick="addDomain()" data-t="add"></button></div>
+      <p class="hint" data-t="domhint"></p>
+      <table class="ut"><thead><tr><th data-t="domain"></th><th data-t="mailboxes"></th><th data-t="status"></th><th></th></tr></thead><tbody id="aDoms"></tbody></table>
+    </div>
+    <div data-ap="send" class="hidden">
+      <p id="aSendReady"></p>
+      <div class="row2"><label style="display:flex;gap:6px;align-items:center;cursor:pointer;flex:0"><input type="checkbox" id="aSendOn" style="width:auto" onchange="saveCfg({allow_send:this.checked})"><span data-t="allowsend" style="white-space:nowrap"></span></label></div>
+      <div class="row2"><span data-t="sendlimit"></span><input id="aSendLimit" type="number" min="0" max="1000" style="max-width:120px"><button onclick="saveCfg({send_limit:Number(aSendLimit.value)})" data-t="save"></button></div>
+      <p class="hint" data-t="sendhint"></p>
+    </div>
+    <div data-ap="audit" class="hidden">
+      <div class="row2"><input id="aAq" data-tp="search" oninput="clearTimeout(window._aa);window._aa=setTimeout(loadAudit,300)"></div>
+      <div class="tblwrap"><table class="ut"><thead><tr><th data-t="time"></th><th data-t="actor"></th><th data-t="action"></th><th data-t="target"></th><th>IP</th></tr></thead><tbody id="aAudit"></tbody></table></div>
+    </div>
   </div>
 </div>
 
 <script>
 const DOMAIN="__DOMAIN__";
 const T={
- zh:{tagline:"多用戶收信 · 自動抽取驗證碼",login:"登入",register:"註冊",username:"用戶名",password:"密碼",invite:"邀請碼",apidocs:"API 文件",settings:"設定",logout:"登出",mailboxes:"信箱",add:"新增",newmb_ph:"名稱（留空隨機）",pick:"揀一封信嚟睇",empty:"暫時未有信，收到會自動出現",copy:"複製",copied:"已複製",rotate:"重設 API Key",rotateq:"重設之後舊 key 會即時失效，確定？",newpass:"新密碼（至少 8 位）",save:"儲存",close:"關閉",saved:"已儲存",del:"刪除",delmb:"刪除呢個信箱同入面所有信？",delmsg:"刪除呢封信？",from:"寄件人",to:"收件人",html:"HTML",text:"純文字",code:"驗證碼",nobody:"（冇內容）",justnow:"啱啱",min:"分鐘前",hr:"小時前",msgs:"封",admin:"管理後台",openreg:"開放公開註冊",invite_ph:"留空 = 唔使邀請碼",search:"搜尋用戶…",msgcount:"郵件",lastmail:"最後收信",created:"註冊",users:"用戶",mail24:"24 小時收信",disable:"停用",enable:"啟用",resetpw:"重設密碼",newpwq:"輸入新密碼（至少 8 位）",deluser:"永久刪除用戶同佢所有信箱同郵件？",disabled:"已停用",adm:"管理員"},
- en:{tagline:"Multi-user inbox · auto-extracts verification codes",login:"Sign in",register:"Sign up",username:"Username",password:"Password",invite:"Invite code",apidocs:"API docs",settings:"Settings",logout:"Sign out",mailboxes:"Mailboxes",add:"Add",newmb_ph:"Name (blank = random)",pick:"Select a message",empty:"No mail yet. New mail appears automatically",copy:"Copy",copied:"Copied",rotate:"Rotate API key",rotateq:"The old key stops working immediately. Continue?",newpass:"New password (8+ chars)",save:"Save",close:"Close",saved:"Saved",del:"Delete",delmb:"Delete this mailbox and all its mail?",delmsg:"Delete this message?",from:"From",to:"To",html:"HTML",text:"Text",code:"Code",nobody:"(no content)",justnow:"just now",min:"m ago",hr:"h ago",msgs:"msgs",admin:"Admin",openreg:"Open registration",invite_ph:"blank = no invite needed",search:"Search users…",msgcount:"Mail",lastmail:"Last mail",created:"Joined",users:"Users",mail24:"Mail (24h)",disable:"Disable",enable:"Enable",resetpw:"Reset password",newpwq:"New password (8+ chars)",deluser:"Permanently delete this user with all mailboxes and mail?",disabled:"disabled",adm:"admin"}
+ zh:{tagline:"多用戶收信 · 自動抽取驗證碼 · 即時推送",login:"登入",register:"註冊",username:"用戶名",password:"密碼",otp:"2FA 驗證碼",invite:"邀請碼",apidocs:"API 文件",settings:"設定",logout:"登出",mailboxes:"信箱",add:"新增",newmb_ph:"名稱（留空隨機）",ttl_none:"永久",pick:"揀一封信嚟睇",empty:"暫時未有信，收到會即時出現",nores:"搵唔到符合嘅信",copy:"複製",copied:"已複製",rotate:"重設 API Key",rotateq:"重設之後舊 key 會即時失效，確定？",newpass:"新密碼（至少 8 位）",save:"儲存",close:"關閉",saved:"已儲存",del:"刪除",delmb:"刪除呢個信箱同入面所有信？",delmsg:"刪除呢封信？",from:"寄件人",to:"收件人",html:"HTML",text:"純文字",code:"驗證碼",nobody:"（冇內容）",justnow:"啱啱",min:"分鐘前",hr:"小時前",msgs:"封",admin:"管理後台",openreg:"開放公開註冊",invite_ph:"留空 = 唔使邀請碼",search:"搜尋…",search_mail:"搜尋主旨、寄件人、內容…",msgcount:"郵件",lastmail:"最後收信",created:"註冊",users:"用戶",mail24:"24 小時收信",active7:"7 日活躍用戶",attsz:"附件容量",disable:"停用",enable:"啟用",resetpw:"重設密碼",newpwq:"輸入新密碼（至少 8 位）",deluser:"永久刪除用戶同佢所有信箱同郵件？",disabled:"已停用",adm:"管理員",all:"全部",unread:"未讀",starred:"星標",hascode:"有驗證碼",readall:"全部已讀",more:"載入更多",labels:"標籤",editlabels:"輸入標籤，用逗號分隔",markunread:"標為未讀",star:"加星標",unstar:"取消星標",expires:"到期",attachments:"附件",compose:"寫信",send:"發送",sentok:"已發送",acct:"帳戶",notify:"通知",rules:"規則",tfa:"雙重認證",sent:"已寄出",test:"測試",testok:"測試成功",regen:"重新產生",hooksecret:"簽名密鑰（驗證 X-Mail-Signature）",hookhint:"收到新信會 POST JSON 去呢個 URL，標頭帶 HMAC-SHA256 簽名。留空儲存 = 關閉。",tghint:"用 @BotFather 開 bot 攞 token，再同 bot 講句嘢，用 @userinfobot 攞你嘅 Chat ID。兩個都留空 = 關閉。",r_forward:"轉寄",r_block:"拒收（黑名單）",r_allow:"只收（白名單）",f_any:"任何欄位",f_subject:"主旨",r_pattern:"關鍵字，或 /正則/（轉寄可留空 = 全部）",r_target:"轉寄去（只限轉寄）",rulehint:"轉寄目標要先喺 Cloudflare Email Routing 驗證。有白名單規則時，只會收命中嘅信。",r_type:"類型",r_cond:"條件",r_scope:"範圍",allmb:"所有信箱",tf_desc:"開啟之後，登入要輸入 Authenticator App（Google Authenticator、1Password 等）嘅 6 位數字。",tf_setup:"開始設定",tf_secret:"密鑰（喺 App 手動輸入）",tf_enter:"輸入 App 顯示嘅 6 位數字",tf_enable:"啟用",tf_disable:"停用 2FA",tf_on:"2FA 已啟用",time:"時間",over:"總覽",domains:"域名",sendcfg:"發信",audit:"操作日誌",received30:"每日收信（30 日）",registered:"新註冊",topusers:"7 日收信最多用戶",domain:"域名",status:"狀態",on:"啟用中",off:"已停用",domhint:"新增域名之後，要喺嗰個 zone 開 Email Routing，並設 catch-all → Worker cf-mail。",deldom:"刪除呢個域名？",allowsend:"允許發信",sendlimit:"每人每日上限",sendhint:"發信經 Resend，需要 Worker secret RESEND_API_KEY 同已驗證域名（SPF/DKIM）。管理員可以喺用戶表逐個開放發信權限。",sendready:"✅ 已設定 RESEND_API_KEY",sendnotready:"⚠️ 未設定 RESEND_API_KEY，暫時發唔到信",cansend:"可發信",unlock:"解鎖",locked:"已鎖定",reset2fa:"重設 2FA",reset2faq:"移除呢個用戶嘅 2FA？",actor:"操作者",action:"動作",target:"對象",live_on:"即時連線中",live_off:"離線，改用輪詢"},
+ en:{tagline:"Multi-user inbox · auto-extracts codes · realtime",login:"Sign in",register:"Sign up",username:"Username",password:"Password",otp:"2FA code",invite:"Invite code",apidocs:"API docs",settings:"Settings",logout:"Sign out",mailboxes:"Mailboxes",add:"Add",newmb_ph:"Name (blank = random)",ttl_none:"Permanent",pick:"Select a message",empty:"No mail yet. New mail appears instantly",nores:"No matching mail",copy:"Copy",copied:"Copied",rotate:"Rotate API key",rotateq:"The old key stops working immediately. Continue?",newpass:"New password (8+ chars)",save:"Save",close:"Close",saved:"Saved",del:"Delete",delmb:"Delete this mailbox and all its mail?",delmsg:"Delete this message?",from:"From",to:"To",html:"HTML",text:"Text",code:"Code",nobody:"(no content)",justnow:"just now",min:"m ago",hr:"h ago",msgs:"msgs",admin:"Admin",openreg:"Open registration",invite_ph:"blank = no invite needed",search:"Search…",search_mail:"Search subject, sender, body…",msgcount:"Mail",lastmail:"Last mail",created:"Joined",users:"Users",mail24:"Mail (24h)",active7:"Active users (7d)",attsz:"Attachments",disable:"Disable",enable:"Enable",resetpw:"Reset password",newpwq:"New password (8+ chars)",deluser:"Permanently delete this user with all mailboxes and mail?",disabled:"disabled",adm:"admin",all:"All",unread:"Unread",starred:"Starred",hascode:"Has code",readall:"Mark all read",more:"Load more",labels:"Labels",editlabels:"Labels, comma separated",markunread:"Mark unread",star:"Star",unstar:"Unstar",expires:"expires",attachments:"Attachments",compose:"Compose",send:"Send",sentok:"Sent",acct:"Account",notify:"Notifications",rules:"Rules",tfa:"2FA",sent:"Sent",test:"Test",testok:"Test OK",regen:"Regenerate",hooksecret:"Signing secret (verify X-Mail-Signature)",hookhint:"New mail is POSTed as JSON to this URL with an HMAC-SHA256 signature. Save blank to turn off.",tghint:"Create a bot with @BotFather for the token, message your bot, then get your Chat ID from @userinfobot. Leave both blank to turn off.",r_forward:"Forward",r_block:"Block (blacklist)",r_allow:"Allow only (whitelist)",f_any:"Any field",f_subject:"Subject",r_pattern:"Keyword or /regex/ (forward: blank = all)",r_target:"Forward to (forward only)",rulehint:"Forward targets must be verified in Cloudflare Email Routing. With any allow rule, only matching mail is accepted.",r_type:"Type",r_cond:"Condition",r_scope:"Scope",allmb:"All mailboxes",tf_desc:"When on, signing in also needs the 6-digit code from an authenticator app.",tf_setup:"Set up",tf_secret:"Secret (enter manually in the app)",tf_enter:"Enter the 6-digit code from the app",tf_enable:"Enable",tf_disable:"Disable 2FA",tf_on:"2FA is on",time:"Time",over:"Overview",domains:"Domains",sendcfg:"Sending",audit:"Audit log",received30:"Mail per day (30d)",registered:"Sign-ups",topusers:"Top users by mail (7d)",domain:"Domain",status:"Status",on:"enabled",off:"disabled",domhint:"After adding, enable Email Routing on that zone with a catch-all → Worker cf-mail.",deldom:"Delete this domain?",allowsend:"Allow sending",sendlimit:"Daily limit per user",sendhint:"Sending uses Resend: needs the RESEND_API_KEY Worker secret and a verified domain (SPF/DKIM). Grant per-user permission in the user table.",sendready:"✅ RESEND_API_KEY is set",sendnotready:"⚠️ RESEND_API_KEY not set; sending unavailable",cansend:"can send",unlock:"Unlock",locked:"locked",reset2fa:"Reset 2FA",reset2faq:"Remove 2FA for this user?",actor:"Actor",action:"Action",target:"Target",live_on:"Realtime connected",live_off:"Offline, polling"}
 };
 let lang=localStorage.lang||(navigator.language.startsWith("zh")?"zh":"en");
 const t=k=>T[lang][k]||k;
-function applyLang(){document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t));document.querySelectorAll("[data-tp]").forEach(e=>e.placeholder=t(e.dataset.tp));if(state.key)render()}
+function applyLang(){document.querySelectorAll("[data-t]").forEach(e=>e.textContent=t(e.dataset.t));document.querySelectorAll("[data-tp]").forEach(e=>e.placeholder=t(e.dataset.tp));buildTabs();if(state.key&&state.user)render()}
 function toggleLang(){lang=lang==="zh"?"en":"zh";localStorage.lang=lang;applyLang()}
 function applyTheme(){document.documentElement.dataset.theme=localStorage.theme||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}
 function toggleTheme(){localStorage.theme=document.documentElement.dataset.theme==="dark"?"light":"dark";applyTheme()}
 const $=id=>document.getElementById(id);
-const h=(tag,attrs={},...kids)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(k.startsWith("on"))e[k]=v;else if(k==="class")e.className=v;else e.setAttribute(k,v)}for(const c of kids)if(c!=null)e.append(c);return e};
-function toast(m){const d=h("div",{class:"toast"},m);document.body.append(d);setTimeout(()=>d.remove(),1600)}
+const h=(tag,attrs={},...kids)=>{const e=document.createElement(tag);for(const[k,v]of Object.entries(attrs)){if(v==null)continue;if(k.startsWith("on"))e[k]=v;else if(k==="class")e.className=v;else e.setAttribute(k,v)}for(const c of kids)if(c!=null&&c!==false)e.append(c);return e};
+function toast(m){const d=h("div",{class:"toast"},m);document.body.append(d);setTimeout(()=>d.remove(),2000)}
 async function copy(s){try{await navigator.clipboard.writeText(s)}catch{const a=h("textarea");a.value=s;document.body.append(a);a.select();document.execCommand("copy");a.remove()}toast(t("copied")+" "+(s.length<40?s:""))}
 function ago(ms){const s=(Date.now()-ms)/1000;if(s<60)return t("justnow");if(s<3600)return Math.floor(s/60)+" "+t("min");if(s<86400)return Math.floor(s/3600)+" "+t("hr");return new Date(ms).toLocaleDateString()}
+function left(ms){const s=(ms-Date.now())/1000;if(s<=0)return"0";if(s<3600)return Math.ceil(s/60)+"m";if(s<86400)return Math.round(s/3600)+"h";return Math.round(s/86400)+"d"}
+const size=b=>b<1024?b+" B":b<1048576?(b/1024).toFixed(1)+" KB":(b/1048576).toFixed(1)+" MB";
+function closeM(id){$(id).classList.add("hidden")}
 
-const state={key:localStorage.mk||"",user:"",mailboxes:[],cur:localStorage.cur||"",messages:[],open:null,view:"html"};
+const state={key:localStorage.mk||"",user:"",mailboxes:[],cur:localStorage.cur||"",messages:[],open:null,view:"html",filter:"all",label:"",labels:[],domains:[],canSend:false};
 async function api(path,opt={}){
   const r=await fetch(path,{...opt,headers:{"content-type":"application/json",...(state.key?{authorization:"Bearer "+state.key}:{}),...(opt.headers||{})}});
   const j=await r.json().catch(()=>({ok:false,error:"bad response"}));
-  if(r.status===401&&state.key&&!path.includes("login")){logout();throw new Error(j.error)}
-  if(!r.ok||j.ok===false)throw new Error(j.error||("HTTP "+r.status));
+  if(r.status===401&&state.key&&!path.includes("login")&&!j.need_otp){logout();throw new Error(j.error)}
+  if(!r.ok||j.ok===false){const e=new Error(j.error||("HTTP "+r.status));e.data=j;throw e}
   return j;
 }
 
+// ---- tabs ----
+const S_TABS=["acct","notify","rules","2fa","sent"],A_TABS=["over","users","domains","send","audit"];
+let sTab="acct",aTab="over";
+function buildTabs(){
+  $("sTabs").replaceChildren(...S_TABS.map(k=>h("button",{class:k===sTab?"on":"",onclick:()=>showSTab(k)},t(k==="2fa"?"tfa":k))));
+  $("aTabs").replaceChildren(...A_TABS.map(k=>h("button",{class:k===aTab?"on":"",onclick:()=>showATab(k)},t(k==="send"?"sendcfg":k))));
+}
+function showSTab(k){sTab=k;buildTabs();document.querySelectorAll("[data-sp]").forEach(e=>e.classList.toggle("hidden",e.dataset.sp!==k));({notify:loadNotify,rules:loadRules,"2fa":load2fa,sent:loadSent})[k]?.()}
+function showATab(k){aTab=k;buildTabs();document.querySelectorAll("[data-ap]").forEach(e=>e.classList.toggle("hidden",e.dataset.ap!==k));({over:loadOverview,users:()=>{loadStats();loadUsers()},domains:loadDomains,send:loadStats,audit:loadAudit})[k]?.()}
+
 // ---- auth ----
 let mode="login";
-function setMode(m){mode=m;$("tLogin").classList.toggle("on",m==="login");$("tReg").classList.toggle("on",m==="register");$("fSuffix").classList.toggle("hidden",m!=="register");$("fInviteWrap").classList.toggle("hidden",!(m==="register"&&window.NEED_INVITE));$("authBtn").dataset.t=m;$("authBtn").textContent=t(m);$("fPass").autocomplete=m==="login"?"current-password":"new-password";$("authErr").textContent=""}
+function setMode(m){mode=m;$("tLogin").classList.toggle("on",m==="login");$("tReg").classList.toggle("on",m==="register");$("fDomain").classList.toggle("hidden",m!=="register");$("fInviteWrap").classList.toggle("hidden",!(m==="register"&&window.NEED_INVITE));if(m==="register")$("fOtpWrap").classList.add("hidden");$("authBtn").dataset.t=m;$("authBtn").textContent=t(m);$("fPass").autocomplete=m==="login"?"current-password":"new-password";$("authErr").textContent=""}
 $("tLogin").onclick=()=>setMode("login");$("tReg").onclick=()=>setMode("register");
+async function loadPublic(){try{const j=await api("/api/domains");window.NEED_INVITE=j.need_invite;$("fDomain").replaceChildren(...j.domains.map(d=>h("option",{value:d},"@"+d)));$("fDomain").value=j.default;if(!j.allow_register)$("tReg").classList.add("hidden");setMode(mode)}catch{}}
 $("authForm").onsubmit=async e=>{e.preventDefault();$("authErr").textContent="";
-  try{const body={username:$("fUser").value.trim(),password:$("fPass").value};if(mode==="register")body.invite=$("fInvite").value.trim();
+  try{const body={username:$("fUser").value.trim(),password:$("fPass").value};
+    if(mode==="register"){body.invite=$("fInvite").value.trim();body.domain=$("fDomain").value}
+    else if(!$("fOtpWrap").classList.contains("hidden"))body.otp=$("fOtp").value.trim();
     const j=await api("/api/"+mode,{method:"POST",body:JSON.stringify(body)});
-    state.key=j.api_key;localStorage.mk=j.api_key;if(j.address){state.cur=j.address;localStorage.cur=j.address}boot();
-  }catch(x){$("authErr").textContent=x.message;if(/invite/.test(x.message)){window.NEED_INVITE=1;setMode("register")}}};
-function logout(){state.key="";localStorage.removeItem("mk");localStorage.removeItem("cur");clearInterval(timer);$("app").classList.add("hidden");$("auth").classList.remove("hidden")}
+    state.key=j.api_key;localStorage.mk=j.api_key;if(j.address){state.cur=j.address;localStorage.cur=j.address}$("fOtp").value="";$("fOtpWrap").classList.add("hidden");boot();
+  }catch(x){if(x.data?.need_otp){$("fOtpWrap").classList.remove("hidden");$("fOtp").focus();if(!$("fOtp").value){$("authErr").textContent="";return}}$("authErr").textContent=x.message;if(/invite/.test(x.message)){window.NEED_INVITE=1;setMode("register")}}};
+function logout(){state.key="";state.user="";localStorage.removeItem("mk");localStorage.removeItem("cur");clearInterval(timer);closeWs();$("app").classList.add("hidden");$("auth").classList.remove("hidden");loadPublic()}
+
+// ---- realtime ----
+let ws,wsRetry=0,wsTimer,pingTimer;
+function setLive(on){$("liveDot").classList.toggle("on",on);$("liveDot").title=t(on?"live_on":"live_off")}
+function openWs(){
+  closeWs(true);
+  try{ws=new WebSocket((location.protocol==="https:"?"wss://":"ws://")+location.host+"/api/ws?key="+encodeURIComponent(state.key))}catch{return}
+  ws.onopen=()=>{wsRetry=0;setLive(true);pingTimer=setInterval(()=>{try{ws.send("ping")}catch{}},30000)};
+  ws.onmessage=e=>{if(e.data==="pong")return;let d;try{d=JSON.parse(e.data)}catch{return}if(d.type==="message")onNewMail(d)};
+  ws.onclose=()=>{setLive(false);clearInterval(pingTimer);if(!state.key)return;wsTimer=setTimeout(openWs,Math.min(30000,1000*2**wsRetry++))};
+}
+function closeWs(keep){clearTimeout(wsTimer);clearInterval(pingTimer);if(ws){ws.onclose=null;try{ws.close()}catch{}ws=null}if(!keep)setLive(false)}
+function onNewMail(d){
+  const mb=state.mailboxes.find(x=>x.address===d.address);if(mb){mb.count++;mb.unread++;renderMb()}
+  document.title="✉ "+(d.code||d.subject||"")+" – "+DOMAIN;
+  if(d.address===state.cur)loadMessages(true);
+  if(document.hidden&&"Notification"in window&&Notification.permission==="granted")new Notification(d.code?("🔑 "+d.code):(d.subject||d.from),{body:d.from+"\n"+d.address});
+  toast("📬 "+(d.code?d.code+" · ":"")+(d.subject||d.from));
+}
 
 // ---- app ----
 let timer;
 async function boot(){
-  if(!state.key){$("auth").classList.remove("hidden");$("app").classList.add("hidden");return}
-  try{const me=await api("/api/me");state.user=me.user;state.admin=me.is_admin}catch{return}
-  $("auth").classList.add("hidden");$("app").classList.remove("hidden");$("hUser").textContent=state.user;$("adminBtn").classList.toggle("hidden",!state.admin);
-  await loadMailboxes();clearInterval(timer);timer=setInterval(()=>{if(!document.hidden)loadMessages()},5000);
+  if(!state.key){$("auth").classList.remove("hidden");$("app").classList.add("hidden");loadPublic();return}
+  let me;try{me=await api("/api/me");}catch{return}
+  state.user=me.user;state.admin=me.is_admin;state.domains=me.domains;state.canSend=me.can_send;state.totp=me.totp_on;
+  $("auth").classList.add("hidden");$("app").classList.remove("hidden");$("hUser").textContent=state.user;
+  $("adminBtn").classList.toggle("hidden",!state.admin);$("composeBtn").classList.toggle("hidden",!state.canSend);
+  $("newMbDomain").replaceChildren(...state.domains.map(d=>h("option",{value:d},"@"+d)));$("newMbDomain").classList.toggle("hidden",state.domains.length<2);
+  renderChips();await loadMailboxes();loadLabels();
+  clearInterval(timer);timer=setInterval(()=>{if(!document.hidden&&!(ws&&ws.readyState===1))loadMessages()},8000);
+  openWs();
+  if("Notification"in window&&Notification.permission==="default")document.addEventListener("click",()=>Notification.requestPermission(),{once:true});
 }
 async function loadMailboxes(){
   const j=await api("/api/mailboxes");state.mailboxes=j.mailboxes;
   if(!state.mailboxes.find(m=>m.address===state.cur))state.cur=state.mailboxes[0]?.address||"";
   renderMb();await loadMessages(true);
 }
+async function loadLabels(){try{state.labels=(await api("/api/labels")).labels;renderChips()}catch{}}
 function renderMb(){
   $("mbCount").textContent=state.mailboxes.length;
   const L=$("mbList");L.replaceChildren();
   for(const m of state.mailboxes){
     L.append(h("div",{class:"mb"+(m.address===state.cur?" on":""),onclick:()=>selectMb(m.address)},
       h("div",{class:"addr"},m.address),
-      h("div",{class:"meta"},h("span",{},m.count+" "+t("msgs")),h("span",{class:"sp"}),
+      h("div",{class:"meta"},h("span",{},m.count+" "+t("msgs")),m.unread?h("span",{class:"badge"},String(m.unread)):null,m.expires_at?h("span",{class:"tag"},"⏱ "+left(m.expires_at)):null,h("span",{class:"sp"}),
         h("button",{class:"ghost",title:t("copy"),onclick:e=>{e.stopPropagation();copy(m.address)}},"⧉"),
         h("button",{class:"ghost danger",title:t("del"),onclick:e=>{e.stopPropagation();delMb(m.address)}},"🗑"))));
   }
 }
 function selectMb(a){state.cur=a;localStorage.cur=a;state.open=null;state.messages=[];renderMb();loadMessages(true);pane("list")}
-$("newMbForm").onsubmit=async e=>{e.preventDefault();try{const name=$("newMbName").value.trim();const j=await api("/api/mailboxes",{method:"POST",body:JSON.stringify(name?{name}:{})});$("newMbName").value="";state.cur=j.address;localStorage.cur=j.address;await loadMailboxes();copy(j.address)}catch(x){toast(x.message)}};
+$("newMbForm").onsubmit=async e=>{e.preventDefault();try{const name=$("newMbName").value.trim();const b={domain:$("newMbDomain").value};if(name)b.name=name;if($("newMbTtl").value)b.ttl_hours=Number($("newMbTtl").value);
+  const j=await api("/api/mailboxes",{method:"POST",body:JSON.stringify(b)});$("newMbName").value="";state.cur=j.address;localStorage.cur=j.address;await loadMailboxes();copy(j.address)}catch(x){toast(x.message)}};
 async function delMb(a){if(!confirm(t("delmb")+"\n"+a))return;try{await api("/api/mailboxes/"+encodeURIComponent(a),{method:"DELETE"});await loadMailboxes()}catch(x){toast(x.message)}}
 
+function renderChips(){
+  const c=$("chips");c.replaceChildren(...["all","unread","starred","hascode"].map(k=>h("button",{class:"chip"+(state.filter===k?" on":""),onclick:()=>{state.filter=k;renderChips();loadMessages(true)}},t(k))));
+  if(state.labels.length){const s=h("select",{style:"width:auto;font-size:12px;padding:2px 6px",onchange:e=>{state.label=e.target.value;loadMessages(true)}},h("option",{value:""},"🏷 "+t("labels")),...state.labels.map(l=>h("option",{value:l},l)));s.value=state.label;c.append(s)}
+}
+function qs(extra=""){const p=new URLSearchParams({limit:"50",address:state.cur});const q=$("q").value.trim();if(q)p.set("q",q);if(state.filter==="unread")p.set("unread","1");if(state.filter==="starred")p.set("starred","1");if(state.filter==="hascode")p.set("has_code","1");if(state.label)p.set("label",state.label);return"/api/messages?"+p+extra}
 let lastSig="";
 async function loadMessages(force){
   if(!state.cur){$("curAddr").textContent="";$("msgList").replaceChildren(h("div",{class:"empty"},t("empty")));return}
-  try{const j=await api("/api/messages?limit=50&address="+encodeURIComponent(state.cur));
-    const sig=j.messages.map(m=>m.id).join(",");
+  try{const j=await api(qs());
+    const sig=j.messages.map(m=>m.id+":"+m.is_read+m.starred+m.labels).join(",");
     if(!force&&sig===lastSig)return;
-    const fresh=lastSig&&sig!==lastSig&&j.messages[0]&&!lastSig.split(",").includes(String(j.messages[0].id));
-    lastSig=sig;state.messages=j.messages;renderList();
-    if(fresh){const m=j.messages[0];document.title="✉ "+(m.code||m.subject)+" – "+DOMAIN;const mb=state.mailboxes.find(x=>x.address===state.cur);if(mb){mb.count=j.messages.length;renderMb()}}
+    lastSig=sig;state.messages=j.messages;$("moreWrap").classList.toggle("hidden",j.messages.length<50);renderList();
+    const mb=state.mailboxes.find(x=>x.address===state.cur);if(mb&&state.filter==="all"&&!$("q").value&&!state.label){mb.unread=j.messages.filter(m=>!m.is_read).length;if(j.messages.length<50)mb.count=j.messages.length;renderMb()}
   }catch(x){}
 }
+async function loadMore(){try{const j=await api(qs("&offset="+state.messages.length));state.messages.push(...j.messages);$("moreWrap").classList.toggle("hidden",j.messages.length<50);renderList()}catch(x){toast(x.message)}}
 function renderList(){
   $("curAddr").replaceChildren(h("span",{},state.cur+" "),h("button",{class:"ghost",onclick:()=>copy(state.cur)},"⧉"));
   const L=$("msgList");L.replaceChildren();
-  if(!state.messages.length){L.append(h("div",{class:"empty"},t("empty")));return}
+  if(!state.messages.length){L.append(h("div",{class:"empty"},t(($("q").value||state.filter!=="all"||state.label)?"nores":"empty")));return}
   for(const m of state.messages){
-    L.append(h("div",{class:"msg"+(state.open?.id===m.id?" on":""),onclick:()=>openMsg(m.id)},
-      h("div",{class:"row"},h("span",{class:"from"},m.from_addr||"?"),h("span",{class:"time"},ago(m.received_at))),
+    L.append(h("div",{class:"msg"+(state.open?.id===m.id?" on":"")+(m.is_read?"":" unread"),onclick:()=>openMsg(m.id)},
+      h("div",{class:"row"},h("button",{class:"star"+(m.starred?" on":""),title:t(m.starred?"unstar":"star"),onclick:e=>{e.stopPropagation();patchMsg(m.id,{starred:!m.starred})}},m.starred?"★":"☆"),h("span",{class:"from"},m.from_addr||"?"),m.att_count?h("span",{title:t("attachments")},"📎"):null,h("span",{class:"time"},ago(m.received_at))),
       h("div",{class:"subj"},m.subject||t("nobody")),
-      m.code?h("button",{class:"code",title:t("copy"),onclick:e=>{e.stopPropagation();copy(m.code)}},m.code," ⧉"):null));
+      (m.labels||m.code)?h("div",{},...(m.labels?m.labels.split(",").map(l=>h("span",{class:"lab"},l)):[]),m.code?h("button",{class:"code",title:t("copy"),onclick:e=>{e.stopPropagation();copy(m.code)}},m.code," ⧉"):null):null));
   }
 }
+async function patchMsg(id,b){try{const j=await api("/api/messages/"+id,{method:"PATCH",body:JSON.stringify(b)});const m=state.messages.find(x=>x.id===id);if(m)Object.assign(m,j);if(state.open?.id===id){Object.assign(state.open,j);renderView()}renderList();if(b.labels!==undefined)loadLabels();if(b.is_read!==undefined)loadMailboxesQuiet()}catch(x){toast(x.message)}}
+async function loadMailboxesQuiet(){try{state.mailboxes=(await api("/api/mailboxes")).mailboxes;renderMb()}catch{}}
+async function readAll(){try{await api("/api/messages/read-all",{method:"POST",body:JSON.stringify({address:state.cur})});await loadMailboxes()}catch(x){toast(x.message)}}
 async function openMsg(id){
-  try{const j=await api("/api/messages/"+id);state.open=j.message;state.view=j.message.html?"html":"text";renderList();renderView();pane("view")}catch(x){toast(x.message)}
+  try{const j=await api("/api/messages/"+id);state.open=j.message;state.view=j.message.html?"html":"text";const m=state.messages.find(x=>x.id===id);if(m&&!m.is_read){m.is_read=1;const mb=state.mailboxes.find(x=>x.address===state.cur);if(mb&&mb.unread)mb.unread--;renderMb()}renderList();renderView();pane("view")}catch(x){toast(x.message)}
 }
+async function attFetch(a,inline){const r=await fetch("/api/attachments/"+a.id+(inline?"?inline=1":""),{headers:{authorization:"Bearer "+state.key}});if(!r.ok)throw new Error("HTTP "+r.status);return URL.createObjectURL(await r.blob())}
+async function download(a){try{const u=await attFetch(a);const l=h("a",{href:u,download:a.filename||"file"});document.body.append(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),5000)}catch(x){toast(x.message)}}
 function renderView(){
   const m=state.open,V=$("msgView");if(!m){V.replaceChildren(h("div",{class:"empty"},t("pick")));return}
   let body;
@@ -261,51 +424,98 @@ function renderView(){
     f.onload=()=>{try{f.style.height=Math.max(480,f.contentDocument.body.scrollHeight+40)+"px"}catch{}};
     body=f;
   }else body=h("pre",{},m.text||m.html?.replace(/<[^>]+>/g,"")||t("nobody"));
+  const atts=(m.attachments||[]).map(a=>{const el=h("div",{class:"att",title:a.filename,onclick:()=>download(a)},"📎 ",h("span",{},a.filename||"file"),h("small",{},size(a.size||0)));
+    if(/^image\/(png|jpe?g|gif|webp)$/.test(a.mime||""))attFetch(a,true).then(u=>el.prepend(h("img",{src:u}))).catch(()=>{});return el});
   V.replaceChildren(h("div",{class:"view"},
     h("button",{class:"ghost back",onclick:()=>pane("list")},"‹ "+state.cur),
     h("h2",{},m.subject||t("nobody")),
     h("div",{class:"hdr"},t("from")+": "+(m.from_addr||"?"),h("br"),t("to")+": "+m.address+" · "+new Date(m.received_at).toLocaleString()),
-    m.code?h("div",{},h("div",{style:"font-size:12px;color:var(--mute)"},t("code")),h("button",{class:"code big",onclick:()=>copy(m.code)},m.code+" ⧉")):null,
+    m.labels?h("div",{},...m.labels.split(",").map(l=>h("span",{class:"lab"},l))):null,
+    m.code?h("div",{style:"margin-top:8px"},h("div",{style:"font-size:12px;color:var(--mute)"},t("code")),h("button",{class:"code big",onclick:()=>copy(m.code)},m.code+" ⧉")):null,
+    atts.length?h("div",{class:"atts"},...atts):null,
     h("div",{class:"bar"},
       m.html?h("button",{class:state.view==="html"?"pri":"",onclick:()=>{state.view="html";renderView()}},t("html")):null,
       h("button",{class:state.view==="text"?"pri":"",onclick:()=>{state.view="text";renderView()}},t("text")),
       h("span",{style:"flex:1"}),
+      h("button",{onclick:()=>patchMsg(m.id,{starred:!m.starred})},(m.starred?"★ ":"☆ ")+t(m.starred?"unstar":"star")),
+      h("button",{onclick:()=>{const v=prompt(t("editlabels"),m.labels||"");if(v!==null)patchMsg(m.id,{labels:v})}},"🏷 "+t("labels")),
+      h("button",{onclick:()=>patchMsg(m.id,{is_read:false})},t("markunread")),
       h("button",{class:"danger",onclick:delMsg},t("del"))),
     h("div",{class:"body"},body)));
 }
-async function delMsg(){if(!confirm(t("delmsg")))return;try{await api("/api/messages/"+state.open.id,{method:"DELETE"});state.open=null;renderView();await loadMessages(true);pane("list")}catch(x){toast(x.message)}}
+async function delMsg(){if(!confirm(t("delmsg")))return;try{await api("/api/messages/"+state.open.id,{method:"DELETE"});state.open=null;renderView();await loadMailboxes();pane("list")}catch(x){toast(x.message)}}
 function pane(p){$("main").dataset.pane=p}
-function render(){renderMb();renderList();renderView()}
+function render(){renderMb();renderChips();renderList();renderView()}
+
+// ---- compose ----
+function openCompose(){$("cFrom").replaceChildren(...state.mailboxes.map(m=>h("option",{value:m.address},m.address)));$("cFrom").value=state.cur;$("cErr").textContent="";
+  if(state.open){$("cTo").value=(state.open.from_addr||"").match(/<([^>]+)>/)?.[1]||"";$("cSubj").value=/^re:/i.test(state.open.subject||"")?state.open.subject:"Re: "+(state.open.subject||"")}
+  $("compose").classList.remove("hidden")}
+async function sendMail(){$("cErr").textContent="";$("cSend").disabled=true;try{await api("/api/send",{method:"POST",body:JSON.stringify({from:$("cFrom").value,to:$("cTo").value,subject:$("cSubj").value,text:$("cBody").value})});toast(t("sentok"));$("cBody").value="";closeM("compose")}catch(x){$("cErr").textContent=x.message}finally{$("cSend").disabled=false}}
 
 // ---- settings ----
-function openSettings(){$("sKey").value=state.key;$("sKey").type="password";$("sPass").value="";$("settings").classList.remove("hidden")}
-function closeSettings(){$("settings").classList.add("hidden")}
-async function rotateKey(){if(!confirm(t("rotateq")))return;try{const j=await api("/api/key/rotate",{method:"POST"});state.key=j.api_key;localStorage.mk=j.api_key;$("sKey").value=j.api_key;$("sKey").type="text";toast(t("saved"))}catch(x){toast(x.message)}}
+function openSettings(){$("sKey").value=state.key;$("sKey").type="password";$("sPass").value="";$("settings").classList.remove("hidden");showSTab(sTab)}
+async function rotateKey(){if(!confirm(t("rotateq")))return;try{const j=await api("/api/key/rotate",{method:"POST"});state.key=j.api_key;localStorage.mk=j.api_key;$("sKey").value=j.api_key;$("sKey").type="text";toast(t("saved"));openWs()}catch(x){toast(x.message)}}
 async function changePass(){try{await api("/api/password",{method:"POST",body:JSON.stringify({new_password:$("sPass").value})});$("sPass").value="";toast(t("saved"))}catch(x){toast(x.message)}}
+function fillNotify(j){$("sHook").value=j.webhook_url;$("sHookSec").value=j.webhook_secret;$("sHookSecWrap").classList.toggle("hidden",!j.webhook_url);$("sTgTok").value="";$("sTgTok").placeholder=j.tg_set?j.tg_token:"123456789:AA...";$("sTgChat").value=j.tg_chat}
+async function loadNotify(){try{fillNotify(await api("/api/settings"))}catch(x){toast(x.message)}}
+async function saveNotify(b){try{fillNotify(await api("/api/settings",{method:"POST",body:JSON.stringify(b)}));toast(t("saved"))}catch(x){toast(x.message)}}
+function saveTg(){const b={tg_chat:$("sTgChat").value};if($("sTgTok").value.trim()||!$("sTgChat").value.trim())b.tg_token=$("sTgTok").value;saveNotify(b)}
+async function testHook(){try{await api("/api/webhook/test",{method:"POST"});toast(t("testok"))}catch(x){toast(x.message)}}
+async function testTg(){try{await api("/api/telegram/test",{method:"POST"});toast(t("testok"))}catch(x){toast(x.message)}}
+async function rotateHook(){try{const j=await api("/api/webhook/rotate",{method:"POST"});$("sHookSec").value=j.webhook_secret;toast(t("saved"))}catch(x){toast(x.message)}}
+async function loadRules(){
+  $("rAddr").replaceChildren(h("option",{value:""},t("allmb")),...state.mailboxes.map(m=>h("option",{value:m.address},m.address)));
+  try{const j=await api("/api/rules");$("rList").replaceChildren(...j.rules.map(r=>h("tr",{},
+    h("td",{},t("r_"+r.kind)),h("td",{class:"wrap"},(r.field==="any"?t("f_any"):r.field==="from"?t("from"):t("f_subject"))+": "+(r.pattern||"*")+(r.target?" → "+r.target:"")),
+    h("td",{class:"wrap"},r.address||t("allmb")),h("td",{class:"acts"},h("button",{class:"danger",onclick:async()=>{await api("/api/rules/"+r.id,{method:"DELETE"});loadRules()}},t("del"))))))}catch(x){toast(x.message)}}
+async function addRule(){try{await api("/api/rules",{method:"POST",body:JSON.stringify({kind:$("rKind").value,field:$("rField").value,pattern:$("rPattern").value,target:$("rTarget").value,address:$("rAddr").value||undefined})});$("rPattern").value="";$("rTarget").value="";loadRules();toast(t("saved"))}catch(x){toast(x.message)}}
+function load2fa(){$("tfOff").classList.toggle("hidden",!!state.totp);$("tfOn").classList.toggle("hidden",!state.totp);$("tfSetupBox").classList.add("hidden")}
+async function tfSetup(){try{const j=await api("/api/2fa/setup",{method:"POST"});$("tfSecret").value=j.secret;$("tfUri").value=j.otpauth;$("tfSetupBox").classList.remove("hidden");$("tfCode").focus()}catch(x){toast(x.message)}}
+async function tfEnable(){try{await api("/api/2fa/enable",{method:"POST",body:JSON.stringify({otp:$("tfCode").value})});state.totp=true;$("tfCode").value="";load2fa();toast(t("tf_on"))}catch(x){toast(x.message)}}
+async function tfDisable(){try{await api("/api/2fa/disable",{method:"POST",body:JSON.stringify({otp:$("tfOffCode").value})});state.totp=false;$("tfOffCode").value="";load2fa();toast(t("saved"))}catch(x){toast(x.message)}}
+async function loadSent(){try{const j=await api("/api/sent");$("sentList").replaceChildren(...j.sent.map(s=>h("tr",{},h("td",{},ago(s.created_at)),h("td",{},s.from_addr),h("td",{class:"wrap"},s.to_addr),h("td",{class:"wrap"},s.subject),h("td",{},h("span",{class:"tag"+(s.status==="sent"?" ok":" off")},s.status)))))}catch(x){toast(x.message)}}
+
 // ---- admin ----
-async function openAdmin(){$("admin").classList.remove("hidden");await loadStats();await loadUsers()}
-function closeAdmin(){$("admin").classList.add("hidden")}
+async function openAdmin(){$("admin").classList.remove("hidden");showATab(aTab)}
 async function loadStats(){try{const j=await api("/api/admin/stats");
-  $("aStats").replaceChildren(...[[j.users,t("users")],[j.mailboxes,t("mailboxes")],[j.messages,t("msgcount")],[j.messages_24h,t("mail24")]].map(([n,l])=>h("div",{class:"stat"},h("b",{},String(n)),h("span",{},l))));
-  $("aReg").checked=j.settings.allow_register;$("aInvite").value=j.settings.invite_code||"";}catch(x){toast(x.message)}}
+  $("aStats").replaceChildren(...[[j.users,t("users")],[j.mailboxes,t("mailboxes")],[j.messages,t("msgcount")],[j.messages_24h,t("mail24")],[j.active_7d,t("active7")],[j.attachments+" · "+size(j.att_bytes),t("attsz")]].map(([n,l])=>h("div",{class:"stat"},h("b",{},String(n)),h("span",{},l))));
+  const s=j.settings;$("aReg").checked=s.allow_register;$("aInvite").value=s.invite_code||"";$("aSendOn").checked=s.allow_send;$("aSendLimit").value=s.send_limit;$("aSendReady").textContent=t(s.send_ready?"sendready":"sendnotready");return j}catch(x){toast(x.message)}}
+async function loadOverview(){await loadStats();try{const j=await api("/api/admin/chart?days=30");
+  const d=j.days,max=Math.max(1,...d.map(x=>Math.max(x.received,x.registered))),W=600,H=145,bw=W/d.length;const NS="http://www.w3.org/2000/svg";const svg=$("aChart");svg.replaceChildren();
+  const el=(n,a)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);return e};
+  d.forEach((x,i)=>{const rh=x.received/max*H,gh=x.registered/max*H;const r=el("rect",{class:"r",x:i*bw+1,y:H-rh,width:bw*0.6,height:rh});r.append(el("title",{}));r.firstChild.textContent=x.day+": "+x.received;svg.append(r);
+    if(gh){const g=el("rect",{class:"g",x:i*bw+bw*0.6,y:H-gh,width:bw*0.3,height:gh});svg.append(g)}
+    if(i%5===0||i===d.length-1){const tx=el("text",{x:i*bw,y:158});tx.textContent=x.day.slice(5);svg.append(tx)}});
+  $("aChartMax").textContent="max "+max;
+  $("aTop").replaceChildren(...j.top_users_7d.map(u=>h("tr",{},h("td",{},u.username),h("td",{},String(u.n)))))}catch(x){toast(x.message)}}
 async function saveCfg(b){try{await api("/api/admin/settings",{method:"POST",body:JSON.stringify(b)});toast(t("saved"));loadStats()}catch(x){toast(x.message)}}
 async function loadUsers(){try{const j=await api("/api/admin/users?q="+encodeURIComponent($("aQ").value.trim()));
   const B=$("aUsers");B.replaceChildren();
   for(const u of j.users){
     const act=(label,fn,cls="")=>h("button",{class:cls,onclick:fn},label);
+    const locked=u.lock_until>Date.now();
     B.append(h("tr",{},
-      h("td",{},u.username+" ",u.is_admin?h("span",{class:"tag"},t("adm")):null,u.disabled?h("span",{class:"tag off"},t("disabled")):null),
+      h("td",{},u.username,u.is_admin?h("span",{class:"tag"},t("adm")):null,u.disabled?h("span",{class:"tag off"},t("disabled")):null,u.totp_on?h("span",{class:"tag ok"},"2FA"):null,u.can_send?h("span",{class:"tag ok"},t("cansend")):null,locked?h("span",{class:"tag off"},t("locked")):null),
       h("td",{},String(u.mailboxes)),h("td",{},String(u.messages)),
       h("td",{},u.last_mail?ago(u.last_mail):"—"),h("td",{},new Date(u.created_at).toLocaleDateString()),
       h("td",{class:"acts"},
         u.is_admin?null:act(u.disabled?t("enable"):t("disable"),()=>userAct(u.username,u.disabled?"enable":"disable")),
+        act((u.can_send?"✓ ":"")+t("cansend"),()=>userAct(u.username,"send",{on:!u.can_send})),
+        locked?act(t("unlock"),()=>userAct(u.username,"unlock")):null,
+        u.totp_on?act(t("reset2fa"),async()=>{if(!confirm(t("reset2faq")+"\n"+u.username))return;try{await api("/api/admin/users/"+encodeURIComponent(u.username)+"/2fa",{method:"DELETE"});loadUsers()}catch(x){toast(x.message)}}):null,
         act(t("resetpw"),()=>resetPw(u.username)),
         u.is_admin?null:act(t("del"),()=>delUser(u.username),"danger"))));
   }}catch(x){toast(x.message)}}
-async function userAct(n,a){try{await api("/api/admin/users/"+encodeURIComponent(n)+"/"+a,{method:"POST"});loadUsers()}catch(x){toast(x.message)}}
+async function userAct(n,a,b){try{await api("/api/admin/users/"+encodeURIComponent(n)+"/"+a,{method:"POST",body:b?JSON.stringify(b):undefined});loadUsers()}catch(x){toast(x.message)}}
 async function resetPw(n){const p=prompt(t("newpwq")+"\n"+n);if(!p)return;try{await api("/api/admin/users/"+encodeURIComponent(n)+"/password",{method:"POST",body:JSON.stringify({new_password:p})});toast(t("saved"))}catch(x){toast(x.message)}}
 async function delUser(n){if(!confirm(t("deluser")+"\n"+n))return;try{await api("/api/admin/users/"+encodeURIComponent(n),{method:"DELETE"});loadUsers();loadStats()}catch(x){toast(x.message)}}
-document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSettings();closeAdmin()}});
+async function loadDomains(){try{const j=await api("/api/admin/domains");$("aDoms").replaceChildren(...j.domains.map(d=>h("tr",{},h("td",{},d.name),h("td",{},String(d.mailboxes)),h("td",{},h("span",{class:"tag"+(d.enabled?" ok":" off")},t(d.enabled?"on":"off"))),
+  h("td",{class:"acts"},h("button",{onclick:()=>domAct(d.name,d.enabled?"disable":"enable")},t(d.enabled?"disable":"enable")),d.mailboxes?null:h("button",{class:"danger",onclick:async()=>{if(!confirm(t("deldom")+"\n"+d.name))return;try{await api("/api/admin/domains/"+encodeURIComponent(d.name),{method:"DELETE"});loadDomains()}catch(x){toast(x.message)}}},t("del"))))))}catch(x){toast(x.message)}}
+async function domAct(n,a){try{await api("/api/admin/domains/"+encodeURIComponent(n)+"/"+a,{method:"POST"});loadDomains()}catch(x){toast(x.message)}}
+async function addDomain(){try{await api("/api/admin/domains",{method:"POST",body:JSON.stringify({name:$("aDom").value})});$("aDom").value="";loadDomains();toast(t("saved"))}catch(x){toast(x.message)}}
+async function loadAudit(){try{const j=await api("/api/admin/audit?limit=200&q="+encodeURIComponent($("aAq").value.trim()));$("aAudit").replaceChildren(...j.audit.map(a=>h("tr",{},h("td",{title:new Date(a.created_at).toLocaleString()},ago(a.created_at)),h("td",{},a.actor),h("td",{},a.action),h("td",{class:"wrap",title:a.detail||""},a.target||(a.detail||"").slice(0,60)),h("td",{},a.ip||""))))}catch(x){toast(x.message)}}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeM("settings");closeM("admin");closeM("compose")}});
 
 applyTheme();applyLang();setMode("login");boot();
 </script>
