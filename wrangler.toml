@@ -1,0 +1,26 @@
+name = "cf-mail"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+account_id = "a214a33f8e5cb4025f886ee9efd34729"
+workers_dev = true
+
+routes = [{ pattern = "mail.kinoveai.cv", custom_domain = true }]
+
+[vars]
+MAIL_DOMAIN = "kinoveai.cv"
+ALLOW_REGISTER = "true"
+RETENTION_DAYS = "7"
+MAX_MAILBOXES = "20"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cf-mail-db"
+database_id = "8a56ed87-efa6-40bd-9002-bad8530f2137"
+
+[triggers]
+crons = ["0 3 * * *"]
+
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true
