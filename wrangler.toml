@@ -18,9 +18,21 @@ database_name = "cf-mail-db"
 database_id = "8a56ed87-efa6-40bd-9002-bad8530f2137"
 
 [triggers]
-crons = ["0 3 * * *"]
+crons = ["15 * * * *"]
 
 [[rules]]
 type = "Text"
 globs = ["**/*.html"]
 fallthrough = true
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "cf-mail-attachments"
+
+[[durable_objects.bindings]]
+name = "HUB"
+class_name = "Hub"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Hub"]
