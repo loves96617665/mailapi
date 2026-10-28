@@ -1,5 +1,7 @@
 # mailapi — Cloudflare 多用戶收信系統
-https://dartnode.com/assets/dash/images/brand/logo.png https://t.co/w7zRAr2yOt
+ https://t.co/w7zRAr2yOt
+[[點擊這裡前往 GitHub](https://dartnode.com/assets/dash/images/brand/logo.png)]( https://t.co/w7zRAr2yOt)
+
 基於 Cloudflare Workers + D1 + R2 + Durable Objects + Email Routing。
 
 ## 功能
