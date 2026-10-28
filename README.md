@@ -38,5 +38,5 @@
 ## API
 認證：`Authorization: Bearer <api_key>`。完整文件見部署後嘅 `/docs`。
 
-支持:[![DartNode Logo](https://dartnode.com/assets/dash/images/brand/logo.png)](https://dartnode.com/)
+支持:[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
